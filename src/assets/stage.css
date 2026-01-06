@@ -1,0 +1,655 @@
+/* --- GLOBAL LAYOUT --- */
+body {
+  background-color: #f7f7f5;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* --- THE STAGE CONTAINER --- */
+.stage-wrapper {
+  width: 100%;             
+  max-width: 750px;      
+  min-width: 600px;        
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px;
+  padding: 55px 35px;
+  background-color: #d8cbb9; 
+  background-image: linear-gradient(180deg, rgba(255,255,255,0.2) 0%, rgba(0,0,0,0.05) 100%);
+  border: 12px solid #5d4037; 
+  border-radius: 8px; 
+  box-shadow: 
+    inset 0 0 40px rgba(0,0,0,0.1), 
+    0 15px 30px rgba(0,0,0,0.3);    
+  margin: 0 auto; 
+  flex-shrink: 0;
+}
+
+/* --- DESK GROUP (Layout for 2 chairs + stand) --- */
+.desk-group {
+  display: flex;
+  align-items: flex-end; 
+  justify-content: center;
+  position: relative;
+  gap: 0; 
+}
+
+/* --- PLAYER CONTAINER --- */
+.player-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 85px;
+  position: relative;
+  z-index: 2; 
+}
+
+/* --- PLAYER NAME LABEL --- */
+.player-name {
+  margin-bottom: 8px;
+  font-weight: bold;
+  font-size: 16px;
+  color: #2c1e1a;
+  text-align: center;
+  min-height: 20px; 
+}
+
+/* --- THE CHAIR COMPONENT --- */
+.chair {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: #272626;
+  border: 3px solid #060505;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 14px; 
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.chair:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 10px rgba(0,0,0,0.4);
+}
+
+/* --- SELECTION STATES --- */
+.chair.selected {
+  border-color: #ffd700;
+  background-color: #5a3e36; 
+  box-shadow: 0 0 12px 2px #ffd700;
+  transform: scale(1.15);
+  z-index: 10;
+}
+
+/* --- EMPTY SEAT STATE --- */
+.chair.empty {
+  background-color: #bcaaa4; 
+  border: 3px dashed #8d6e63;
+  cursor: default;
+}
+
+.chair.empty:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+/* --- THE MUSIC STAND --- */
+.music-stand {
+  width: 55px;       
+  height: 4px;      
+  background-color: #333;
+  margin-bottom: 65px; 
+  margin-left: -5px;   
+  margin-right: -5px;
+  z-index: 3; 
+  border-radius: 2px;
+}
+
+/* --- LAYOUT CONTAINER --- */
+.app-layout {
+  display: flex;
+  flex-direction: row;
+  min-height: 100vh;
+  width: 100%;
+  overflow-x: hidden; 
+}
+
+/* --- 1. LEFT SIDEBAR --- */
+.controls-panel {
+  width: 220px;            
+  min-width: 220px;        
+  background-color: #f7f3e8;
+  border-right: 1px solid #dcdcdc;
+  border-bottom: 1px solid #dcdcdc;  /* Add bottom border */
+  border-radius: 0 0 8px 0;          /* Optional: rounded bottom-right corner */
+  padding: 20px;          
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  z-index: 100;
+  align-self: flex-start;       
+}
+
+/* --- 2. MAIN AREA (THE WHITE SPACE) --- */
+.main-stage-area {
+  flex-grow: 1;            
+  background-color: #f7f7f5;
+  padding: 20px;         
+  padding-right: 300px;  
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; 
+  align-items: center; 
+  overflow-y: auto; 
+  overflow-x: hidden;  
+  width: 100%;
+  box-sizing: border-box;  
+}
+
+/* --- 3. RIGHT SIDEBAR --- */
+.right-sidebar {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 100;
+  width: 260px;
+  height: auto;     /* Let it fill the height naturally */
+  display: flex;
+  flex-direction: column;
+  padding-top: 23px;
+        
+}
+
+.right-sidebar h3 {
+  margin: 0 0 15px 0;
+  font-size: 1.3rem;
+  color: #555;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+}
+
+/* Reset SaveLoad styles when inside right sidebar */
+.right-sidebar .save-load-container {
+  flex-direction: column;
+  background-color: #f7f3e8;  /* Background on component only */
+  border: 1px solid #dcdcdc;
+  border-radius: 8px;
+  padding: 15px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  margin-bottom: 0;
+  padding-bottom: 15px;
+  border-bottom: none;
+}
+
+.right-sidebar .stage-name-input {
+  width: 100%;
+}
+
+.save-load-message {
+  margin: 10px 0 0 0;
+  padding: 8px;
+  font-size: 0.85rem;
+  color: #333;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 4px;
+  text-align: center;
+}
+
+/* --- STAGE INTERNAL HEADER --- */
+
+/* Wrapper that looks like a "sheet of paper" or the stage floor */
+.stage-content-wrapper {
+  background-color: #eaddcf; /* Match your existing stage color */
+  padding: 30px 40px;        
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;      
+  margin: 0 auto;
+  width: auto; 
+  max-width: 100%;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+
+.stage-internal-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  width: 100%;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid rgba(62, 39, 35, 0.1); 
+  margin-left: 140px; 
+}
+
+
+.stage-internal-header h2 {
+  margin: 0;
+  font-family: 'Georgia', serif; 
+  font-size: 2.2rem;
+  color: #3e2723;
+}
+
+/* Quick Save Button */
+.btn-quick-save {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #5d4037;
+  padding: 8px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  opacity: 0.6;
+}
+
+.btn-quick-save:hover {
+  background-color: rgba(62, 39, 35, 0.1);
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.btn-quick-save:active {
+  transform: scale(0.95);
+}
+
+/* --- STATUS ROW --- */
+.status-row {
+  display: flex;
+  align-items: center; 
+  gap: 8px;            
+  margin-bottom: 20px;
+  height: 24px;        
+}
+
+.status-row p {
+  margin: 0; 
+}
+
+/* THE MINI 'X' BUTTON */
+.btn-clear-selection {
+  width: 30px;
+  height: 30px;
+  min-width: 30px; 
+  min-height: 30px;
+  border-radius: 50%;
+  padding: 0;
+  background-color: transparent;
+  border: 1px solid #e57373; 
+  color: #e57373;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px; 
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+
+.btn-clear-selection:hover {
+  background-color: #e57373; 
+  color: white;
+  transform: scale(1.1);
+}
+
+/* --- BUTTON STYLES --- */
+.button-group {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.btn-disabled {
+  background-color: #e0e0e0;
+  color: #999;
+  border: none;
+  padding: 12px;
+  border-radius: 6px;
+  cursor: not-allowed;
+  font-size: 1rem;
+}
+
+.action-row {
+  display: flex;           
+  flex-direction: row;     
+  gap: 8px;               
+  width: 100%;            
+}
+
+.action-row button {
+  flex: 1;                 
+  padding: 10px 5px;      
+  font-size: 0.9rem;       
+  white-space: nowrap;    
+  min-width: 0;            
+}
+
+.btn-action {
+  flex: 1;               
+  background-color: #8d6e63; 
+  color: white;
+  border: 1px solid #795548; 
+  padding: 10px 0;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.2s ease;
+}
+
+.btn-action:hover { 
+  background-color: #6d4c41; /* Darker brown */
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+}
+
+
+/* --- REMOVED PLAYERS SECTION --- */
+.removed-section {
+  margin-top: 30px;
+  border-top: 2px solid #e0e0e0;
+  padding-top: 10px;
+}
+
+.removed-section h3 {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+.removed-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 300px; 
+  overflow-y: auto;  
+}
+
+.removed-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.removed-name {
+  color: #333;
+  font-weight: 500;
+}
+
+.btn-restore {
+  width: 30px;
+  min-width: 30px; 
+  height: 30px;
+  min-height: 30px; 
+  border-radius: 50%; 
+  padding: 0;      
+  background-color: transparent; 
+  border: 2px solid #4CAF50;    
+  color: #4CAF50;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  font-size: 1.4rem;
+  line-height: 1; 
+  padding-bottom: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+
+.btn-restore:hover {
+  background-color: #4CAF50; 
+  color: white;             
+  transform: scale(1.1);   
+  box-shadow: 0 2px 8px rgba(76, 175, 80, 0.4); 
+}
+
+
+
+  /* --- GuestForm STYLES --- */
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6); 
+    display: flex;
+    justify-content: center; 
+    align-items: center;     
+    z-index: 1000;           
+    backdrop-filter: blur(2px); 
+  }
+
+  /* MODAL BOX  */
+  .modal-content {
+    background-color: white;
+    padding: 25px;
+    border-radius: 8px;
+    width: 400px; /* Fixed width */
+    max-width: 90%;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    animation: fadeIn 0.2s ease-out;
+  }
+
+  .modal-content h3 {
+    margin: 0;
+    color: #333;
+    font-size: 1.2rem;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 10px;
+  }
+
+  /*  FORM ELEMENTS  */
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .form-group label {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #555;
+  }
+
+  .form-group input,
+  .form-group select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: border-color 0.2s;
+  }
+
+  .form-group input:focus,
+  .form-group select:focus {
+    border-color: #4CAF50; /* Highlight green on focus */
+    outline: none;
+  }
+
+  .hint-text {
+    font-size: 0.8rem;
+    color: #e57373; /* Red warning color */
+    margin: 0;
+  }
+
+  /*  BUTTON ACTIONS  */
+  .modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  .modal-actions button {
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+  }
+
+  .modal-actions .btn-secondary {
+    background-color: #f5f5f5;
+    color: #333;
+    border: 1px solid #ddd;
+  }
+  .modal-actions .btn-secondary:hover {
+    background-color: #e0e0e0;
+  }
+
+  .modal-actions .btn-primary {
+    background-color: #4CAF50;
+    color: white;
+  }
+  .modal-actions .btn-primary:disabled {
+    background-color: #a5d6a7;
+    cursor: not-allowed;
+  }
+
+  /* --- ANIMATION --- */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* --- GUEST LIST BUTTONS Div --- */
+  .guest-actions {
+    display: flex;
+    align-items: center; 
+    justify-content: center;
+    gap: 8px; 
+  }
+
+  
+  /* --- SAVE / LOAD CONTROLS --- */
+  .save-load-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .stage-name-input {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    box-sizing: border-box; /* Ensures padding doesn't break width */
+  }
+
+  .stage-name-input:focus {
+    outline: none;
+    border-color: #646cff;
+    box-shadow: 0 0 0 2px rgba(100, 108, 255, 0.2);
+  }
+
+  .save-load-actions {
+    display: flex;
+    gap: 8px;
+  }
+
+  .btn-save, .btn-load {
+    flex: 1; /* Both take equal width */
+    padding: 8px 0;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s;
+    color: white;
+  }
+
+  .btn-save {
+    background-color: #4A90E2; /* Blue */
+  }
+
+  .btn-load {
+    background-color: #5C5C5C; /* Dark Gray */
+  }
+
+  .btn-save:disabled, .btn-load:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
+
+  .btn-save:hover:not(:disabled) { opacity: 0.9; }
+  .btn-load:hover:not(:disabled) { opacity: 0.9; }
+
+
+  
+  /* Mobile Layout Tweak */
+@media (max-width: 768px) {
+  .app-layout {
+    flex-direction: column; 
+  }
+
+  .controls-panel {
+    width: 100%;       
+    min-width: 0;      
+    padding: 15px;
+    border-right: none;
+    border-bottom: 1px solid #dcdcdc;
+    flex-direction: row; 
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  
+  .controls-panel p {
+    font-size: 0.8rem;
+    margin: 0;
+  }
+
+  .button-group {
+    flex-direction: row;
+  }
+  
+  .main-stage-area {
+    padding: 10px;
+    padding-right: 10px;   
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+
+  .right-sidebar {
+    position: relative;    /* Back to normal flow on mobile */
+    top: auto;
+    right: auto;
+    width: 100%;
+    min-width: 0;
+    border-top: 1px solid #dcdcdc;
+    padding: 15px;
+  }
+}
