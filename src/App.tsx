@@ -10,7 +10,7 @@ import { api } from './api';
 import { SnapshotModal } from './components/Snapshot';
 import { CameraButton } from './components/CameraButton';
 import html2canvas from 'html2canvas'; 
-import './assets/Stage.css'; 
+import './assets/stage.css'; 
 import { SaveButton } from './components/SaveButton';
 
 function App() {
