@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import type { SeatLocation } from '../logic/orchestra';
-import '../assets/Stage.css'; 
+import '../assets/stage.css'; 
 
 interface GuestFormProps {
   emptySeats: SeatLocation[];

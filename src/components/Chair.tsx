@@ -1,6 +1,6 @@
 import React from 'react';
 import { Player } from '../logic/orchestra';
-import '../assets/Stage.css'; 
+import '../assets/stage.css'; 
 
 interface ChairProps {
   player: Player | null;      
