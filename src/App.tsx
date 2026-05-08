@@ -32,7 +32,7 @@ function App() {
   const [isGuestFormOpen, setIsGuestFormOpen] = useState(false);
 
   // manual re-rendering when orchestra changes (for optimization)
-  const [version, setVersion] = useState(0);
+  const [, setVersion] = useState(0);
   const refreshOrchestra = () => setVersion(v => v + 1);
 
   // WARNING STATE
