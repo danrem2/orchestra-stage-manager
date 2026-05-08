@@ -1,8 +1,8 @@
 # Ensemble
 
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-orchestra--stage--manager.vercel.app-brightgreen?style=for-the-badge)]
-
 A web application for managing orchestra seating arrangements with real-time cloud sync.
+
+**Try it now:** https://orchestra-stage-manager.vercel.app/
 
 ## Features
 
